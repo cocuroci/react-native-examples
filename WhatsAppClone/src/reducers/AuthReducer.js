@@ -2,30 +2,45 @@ const INITIAL_STATE = {
     nome: '',
     email: '',
     senha: '',
-    erroCadastro: 'Test de erro'
+    erroCadastro: ''
 }
 
 export default (state = INITIAL_STATE, action) => {
-    if (action.type === 'modifica_email') {
-        return {
-            ...state,
-            email: action.payload
-        }
-    }
 
-    if (action.type === 'modifica_senha') {
-        return {
-            ...state,
-            senha: action.payload
-        }
+    switch(action.type) {
+        case 'modifica_email':
+            return {
+                ...state,
+                email: action.payload
+            }
+            break;
+        case 'modifica_senha':
+            return {
+                ...state,
+                senha: action.payload
+            }
+            break;
+         case 'modifica_nome':
+            return {
+                ...state,
+                nome: action.payload
+            }
+            break;
+        case 'cadastro_usuario_error':
+            return {
+                ...state,
+                erroCadastro: action.payload
+            }
+            break;
+        case 'cadastro_usuario_sucesso':
+            return {
+                ...state,
+                nome: '',
+                senha: ''
+            }
+            break;
+        default:
+            return state;
+            break;
     }
-
-    if (action.type === 'modifica_nome') {
-        return {
-            ...state,
-            nome: action.payload
-        }
-    }
-
-    return state;
 }

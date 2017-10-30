@@ -41,9 +41,11 @@ class FormCadastro extends Component {
                             placeholder='Senha'
                             placeholderTextColor='white' 
                             onChangeText={ text => this.props.modificaSenha(text) } />
+
+                        <Text style={{ backgroundColor: 'transparent', color: '#FFF', height: 20, marginVertical: 10  }}>{this.props.erroCadastro}</Text>
                     </View>
                     
-                    <Text>{this.props.erroCadastro}</Text>
+                    
 
                     <View style={styles.rodape}>
                         <Button

@@ -1,4 +1,6 @@
 import firebase from 'firebase'
+import { Actions } from 'react-native-router-flux';
+import b64 from 'base-64';
 
 export const modificaEmail = (text) => {
     return {
@@ -25,16 +27,27 @@ export const cadastraUsuario = ({name, email, password}) => {
     return dispatch => {
         firebase.auth()
             .createUserWithEmailAndPassword(email, password)
-            .then(user => cadastraUsuarioSucesso(dispatch, user))
+            .then(user => {
+                let emailB64 = b64.encode(email);
+
+                firebase.database()
+                    .ref('contatos/' + emailB64)
+                    .set({
+                        nome: name
+                    })
+                    .then(value =>  cadastroUsuarioSucesso(dispatch))
+                    .catch(error => cadastroUsuarioError(dispatch, error))
+            })
             .catch(error => cadastroUsuarioError(dispatch, error))
     }
 }
 
-const cadastroUsuarioSucesso = (dispatch, user) => {
-    dispatch ({ type: 'cadastra_usuario_sucesso' })
+const cadastroUsuarioSucesso = (dispatch) => {
+    dispatch ({ type: 'cadastro_usuario_sucesso' })
+    Actions.boasVindas()
 }
 
 const cadastroUsuarioError = (dispatch, error) => {
-    dispatch ({ type: 'cadastra_usuario_error' })
+    dispatch ({ type: 'cadastro_usuario_error', payload: error.message })
 }
     
