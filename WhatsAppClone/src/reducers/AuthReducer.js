@@ -1,7 +1,8 @@
 const INITIAL_STATE = {
     nome: '',
     email: '',
-    senha: ''
+    senha: '',
+    erroCadastro: 'Test de erro'
 }
 
 export default (state = INITIAL_STATE, action) => {
