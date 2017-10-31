@@ -1,24 +1,25 @@
 import firebase from 'firebase'
 import { Actions } from 'react-native-router-flux';
 import b64 from 'base-64';
+import * as types from './types';
 
 export const modificaEmail = (text) => {
     return {
-        type: 'modifica_email',
+        type: types.MODIFICA_EMAIL,
         payload: text
     }
 }
 
 export const modificaSenha = (text) => {
     return {
-        type: 'modifica_senha',
+        type: types.MODIFICA_SENHA,
         payload: text
     }
 }
 
 export const modificaNome = (text) => {
     return {
-        type: 'modifica_nome',
+        type: types.MODIFICA_NOME,
         payload: text
     }
 }
@@ -31,7 +32,7 @@ export const cadastraUsuario = ({name, email, password}) => {
                 let emailB64 = b64.encode(email);
 
                 firebase.database()
-                    .ref('contatos/' + emailB64)
+                    .ref(`contatos/${emailB64}`)
                     .set({
                         nome: name
                     })
@@ -42,12 +43,32 @@ export const cadastraUsuario = ({name, email, password}) => {
     }
 }
 
+export const authUsuario = ({email, senha}) => {
+    return dispatch => {
+
+        dispatch({ type: types.LOGIN_EM_ANDAMENTO, payload: true })
+
+        firebase.auth()
+            .signInWithEmailAndPassword(email, senha)
+            .then(() => authUsuarioSuccesso(dispatch))
+            .catch(error => authUsuarioError(dispatch, error))
+    }
+}
+
 const cadastroUsuarioSucesso = (dispatch) => {
-    dispatch ({ type: 'cadastro_usuario_sucesso' })
+    dispatch ({ type: types.CADASTRO_USUARIO_SUCESSO })
     Actions.boasVindas()
 }
 
 const cadastroUsuarioError = (dispatch, error) => {
-    dispatch ({ type: 'cadastro_usuario_error', payload: error.message })
+    dispatch ({ type: types.CADASTRO_USUARIO_ERRO, payload: error.message })
 }
-    
+
+const authUsuarioSuccesso = (dispatch) => {
+    dispatch ({ type: types.LOGIN_USUARIO_SUCESSO })
+    Actions.principal();
+}
+
+const authUsuarioError = (dispatch, error) => {
+    dispatch ({ type: types.LOGIN_USUARIO_ERRO, payload: error.message })
+}
