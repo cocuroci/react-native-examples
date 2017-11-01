@@ -36,7 +36,14 @@ class FormLogin extends Component {
                         <Text style={{ color: 'white', backgroundColor: 'transparent' }}>WhatsApp Clone</Text>
                     </View>
                     <View style={styles.main}>
-                        <TextInput value={this.props.email} style={styles.input} placeholder='E-mail' placeholderTextColor='white' onChangeText={ text => this.props.modificaEmail(text) } />
+                        <TextInput 
+                            autoCorrect={false}
+                            autoCapitalize='none'
+                            keyboardType='email-address'
+                            placeholder='E-mail'
+                            placeholderTextColor='white'
+                            
+                            value={this.props.email} style={styles.input}  onChangeText={ text => this.props.modificaEmail(text) } />
                         <TextInput value={this.props.senha} secureTextEntry style={styles.input} placeholder='Senha' placeholderTextColor='white' onChangeText={ text => this.props.modificaSenha(text) } />
                         <TouchableOpacity
                             onPress={ () => Actions.cadastro() }

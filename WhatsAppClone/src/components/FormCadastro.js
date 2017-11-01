@@ -28,10 +28,13 @@ class FormCadastro extends Component {
                             onChangeText={ text => this.props.modificaNome(text) } />
 
                         <TextInput 
-                            value={this.props.email}
-                            style={styles.input}
+                            autoCorrect={false}
+                            autoCapitalize='none'
+                            keyboardType='email-address'
                             placeholder='E-mail'
                             placeholderTextColor='white'
+                            value={this.props.email}
+                            style={styles.input}
                             onChangeText={ text => this.props.modificaEmail(text) } />
 
                         <TextInput 

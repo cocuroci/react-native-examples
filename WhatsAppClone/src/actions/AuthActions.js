@@ -33,7 +33,7 @@ export const cadastraUsuario = ({name, email, password}) => {
 
                 firebase.database()
                     .ref(`contatos/${emailB64}`)
-                    .set({
+                    .push({
                         nome: name
                     })
                     .then(value =>  cadastroUsuarioSucesso(dispatch))
